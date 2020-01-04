@@ -1,5 +1,7 @@
 package com.example.bawei.basemodel.ui;
 
+import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,11 +18,13 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
+import com.example.bawei.basemodel.service.XmppService;
+
 
 /**
  * @Author yaoxinhe
@@ -29,48 +33,14 @@ import java.util.List;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-//        getNotchParams();
         hideBar();
-        initView(savedInstanceState);
-        initData();
-        doEvent();
+        ComponentName componentName = startService(new Intent(this, XmppService.class));
+
     }
-
-    public void getNotchParams() {
-        final View decorView = getWindow().getDecorView();
-
-        decorView.post(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.P)
-            @Override
-            public void run() {
-                WindowInsets rootWindowInsets = decorView.getRootWindowInsets();
-                if (rootWindowInsets == null) {
-                    Log.e("TAG", "rootWindowInsets为空了");
-                    return;
-                }
-                DisplayCutout displayCutout = rootWindowInsets.getDisplayCutout();
-                Log.e("TAG", "安全区域距离屏幕左边的距离 SafeInsetLeft:" + displayCutout.getSafeInsetLeft());
-                Log.e("TAG", "安全区域距离屏幕右部的距离 SafeInsetRight:" + displayCutout.getSafeInsetRight());
-                Log.e("TAG", "安全区域距离屏幕顶部的距离 SafeInsetTop:" + displayCutout.getSafeInsetTop());
-                Log.e("TAG", "安全区域距离屏幕底部的距离 SafeInsetBottom:" + displayCutout.getSafeInsetBottom());
-
-                List<Rect> rects = displayCutout.getBoundingRects();
-                if (rects == null || rects.size() == 0) {
-                    Log.e("TAG", "不是刘海屏");
-                } else {
-                    Log.e("TAG", "刘海屏数量:" + rects.size());
-                    for (Rect rect : rects) {
-                        Log.e("TAG", "刘海屏区域：" + rect);
-                    }
-                }
-            }
-        });
-    }
-
     /***
      * 沉浸式布局
      */
@@ -87,25 +57,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    /***
-     * 获取 Activity 的布局文件
-     * @return
-     */
-    protected abstract int getLayoutId();
 
-    /***
-     * 初始化视图
-     */
-    protected abstract void initView(Bundle savedInstanceState);
-
-    /***
-     * 初始化数据
-     */
-    protected abstract void initData();
-
-
-    /***
-     * 点击事件
-     */
-    protected abstract void doEvent();
 }

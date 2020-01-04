@@ -1,9 +1,10 @@
-package com.example.bawei.basemodel;
+package com.example.bawei.basemodel.application;
 
 import android.app.Application;
 
 import com.example.bawei.basemodel.device.AppInfoConfig;
 import com.example.bawei.basemodel.device.DeviceInfoConfig;
+import com.example.library.ZXing3;
 
 /**
  * @Author yaoxinhe
@@ -16,5 +17,7 @@ public class MyApplication extends Application {
         super.onCreate();
         AppInfoConfig.getInstance().init(this);
         DeviceInfoConfig.getInstance().init(this);
+        ZXing3.init(this);
+
     }
 }

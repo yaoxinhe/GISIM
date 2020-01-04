@@ -12,12 +12,14 @@ public class BasePresenter<V extends IView, M extends IModel> {
     public V mView;
     public M mModel;
     //绑定方法
-    public void AttachView(V view){
+    public void attachView(V view){
         mView=view;
     }
     //解绑方法
-    public void DettachView(){
-
+    public void dettachView(){
+        if(mView!=null){
+            mView=null;
+        }
     }
 
 

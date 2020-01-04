@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -52,4 +52,12 @@ dependencies {
     api 'com.amap.api:3dmap:5.0.0'
     api 'com.amap.api:location:3.3.0'
     api 'com.amap.api:search:5.0.0'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    api 'androidx.recyclerview:recyclerview:1.1.0'
+    api 'com.bigkoo:alertview:1.0.3'
+    api 'com.github.AndroidRookie706:BitmapUtils:1.0.0'
+    api 'com.github.AndroidRookie706:ZXing3:1.1'
+    api 'cn.yipianfengye.android:zxing-library:2.2'
+    api project(':XmppLibrary')
+
 }

@@ -1,7 +1,7 @@
 package com.example.bawei.basemodel.mvp;
 
 /***
- * @Author Gcvition
+ * @Author yxh
  * @CreateDate 2019-12-02
  * @Desc M 层的基接口
  * @Version 1.0

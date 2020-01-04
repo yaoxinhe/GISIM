@@ -5,11 +5,15 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.bawei.basemodel.api.TokenApi;
 import com.example.bawei.basemodel.device.AppInfoConfig;
 import com.example.bawei.basemodel.device.DeviceInfoConfig;
+import com.example.bawei.basemodel.log.LogUtils;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import entity.TokenEnity;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,10 +29,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @Email 1151403054@qq.com
  */
 public class RetrofitUtils {
+
     private static final String TAG = "RetrofitUtils";
-    private static final String BASEURL = "https://www.city2sky.cn/";
+    private static final String BASEURL = "http://api.zydeveloper.com:10001/";
     private static volatile RetrofitUtils instance;
     private Retrofit mRetrofit;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static RetrofitUtils getInstance() {
         if (instance == null) {
@@ -40,6 +46,8 @@ public class RetrofitUtils {
         }
         return instance;
     }
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     private RetrofitUtils() {
 
@@ -59,6 +67,34 @@ public class RetrofitUtils {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
+
+
+
+
+
+    /***
+     * 创建 Log拦截器
+     * @return Log拦截器
+     */
+    private HttpLoggingInterceptor createLogInterceptor() {
+        HttpLoggingInterceptor mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+
+            @Override
+            public void log(String message) {
+                Log.i(TAG, message);
+            }
+        });
+        mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return mLoggingInterceptor;
+    }
+
+
+
+
+    /***
+     * 自定义拦截器
+     * @return
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private Interceptor createRequestInterceptor() {
         return chain -> {
@@ -72,30 +108,48 @@ public class RetrofitUtils {
                     .addHeader("Content-Type", "application-json")
                     .addHeader("charest", "utf-8")
                     .addHeader("manufacturer", DeviceInfoConfig.getInstance().getMANUFACTURER())
-                    .addHeader("model", DeviceInfoConfig.getInstance().getModel())
-                    .addHeader("deviceid", DeviceInfoConfig.getInstance().getDeviceId())
-                    .addHeader("utdid", DeviceInfoConfig.getInstance().getUtdid())
+                    .addHeader("model",DeviceInfoConfig.getInstance().getModel())
+                    .addHeader("deviceid",DeviceInfoConfig.getInstance().getDeviceId())
+                    .addHeader("utdid",DeviceInfoConfig.getInstance().getUtdid())
                     .addHeader("packagename", AppInfoConfig.getInstance().getPackageName())
-                    .addHeader("versoincode", AppInfoConfig.getInstance().getVersionCode())
-                    .addHeader("versionname", AppInfoConfig.getInstance().getVersionName())
-                    .addHeader("location", DeviceInfoConfig.getInstance().getLocation())
-                    .addHeader("macaddress", DeviceInfoConfig.getInstance().getMacAddress())
-                    .addHeader("display", DeviceInfoConfig.getInstance().getX())
-                    .addHeader("osversion", DeviceInfoConfig.getInstance().getosVersion());
+                    .addHeader("versoincode",AppInfoConfig.getInstance().getVersionCode())
+                    .addHeader("versionname",AppInfoConfig.getInstance().getVersionName())
+                    .addHeader("location",DeviceInfoConfig.getInstance().getLocation())
+                    .addHeader("macaddress",DeviceInfoConfig.getInstance().getMacAddress())
+                    .addHeader("display",DeviceInfoConfig.getInstance().getX())
+                    .addHeader("osversion",DeviceInfoConfig.getInstance().getosVersion());
+            //判断响应码
+            if (response.code() == 401) {
+                requestBuilder.addHeader("Authorization", "bearer " + requestToken());
+            }
             return chain.proceed(requestBuilder.build());
         };
     }
-    private HttpLoggingInterceptor createLogInterceptor() {
-        HttpLoggingInterceptor mLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
 
-            @Override
-            public void log(String message) {
-                Log.i(TAG, message);
-            }
-        });
-        mLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return mLoggingInterceptor;
+    /***
+     * 同步请求 token
+     * @return 请求到的token
+     */
+    private String requestToken() {
+        try {
+            TokenEnity body = mRetrofit.create(TokenApi.class)
+                    .getToken("password", "341de11517517819a16213218f10712d1df1fa1221471591", "")
+                    .execute().body();
+            LogUtils.e(body.getAccess_token());
+            return body.getAccess_token();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
+
+
+    /***
+     * @Desc 创建API
+     * @param clazz
+     * @param <T>
+     * @return api
+     */
     public <T> T create(Class<T> clazz) {
         return mRetrofit.create(clazz);
     }

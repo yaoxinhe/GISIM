@@ -1,2 +1,2 @@
-include ':app', ':BaseModule', ':HomeModule'
+include ':app', ':BaseModule', ':HomeModule', ':IMModule', ':XmppLibrary', ':CommonLibrary', ':AddFriend'
 rootProject.name='GISIM'

@@ -1,25 +1,43 @@
 package com.example.bawei.gisim;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.example.bawei.basemodel.net.RetrofitUtils;
+import androidx.annotation.RequiresApi;
+import androidx.viewpager.widget.ViewPager;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import com.example.bawei.basemodel.ui.BaseMVPActivity;
+import com.example.bawei.homemodule.ui.HomeFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseMVPActivity {
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    private ViewPager vp;
+    private MyFragmentPagerAdapter fragmentPagerAdapter;
+    private HomeFragment homeFragment;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+
+        vp = (ViewPager) findViewById(R.id.vp);
+        homeFragment=new HomeFragment();
+        fragmentPagerAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager());
+        fragmentPagerAdapter.addFragment(homeFragment);
+        vp.setAdapter(fragmentPagerAdapter);
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void doEvent() {
+
     }
 }

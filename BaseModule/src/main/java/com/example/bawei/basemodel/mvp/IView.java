@@ -3,7 +3,7 @@ package com.example.bawei.basemodel.mvp;
 import androidx.lifecycle.LifecycleOwner;
 
 /***
- * @Author Gcvition
+ * @Author yxh
  * @CreateDate 2019-12-02
  * @Desc V 层的基接口
  * @Version 1.0

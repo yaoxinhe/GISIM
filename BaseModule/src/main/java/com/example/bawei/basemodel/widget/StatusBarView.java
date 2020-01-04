@@ -9,7 +9,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 /***
- * @Author Gcvition
+ * @Author yxh
  * @CreateDate 2019-12-04
  */
 public class StatusBarView extends View {
@@ -36,10 +36,6 @@ public class StatusBarView extends View {
         init(context);
     }
 
-    public StatusBarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
 
     private int getStausBarHeight(Context context) {
         if (mStatusBarHeight == 0) {

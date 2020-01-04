@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomActionView">
+        <attr name="bottom_img1" format="reference"/>
+        <attr name="bottom_img2" format="reference"/>
+        <attr name="bottom_img3" format="reference"/>
+        <attr name="bottom_img4" format="reference"/>
+        <attr name="bottom_img5" format="reference"/>
+
+    </declare-styleable>
+</resources>

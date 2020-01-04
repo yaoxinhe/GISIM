@@ -5,9 +5,12 @@ import android.os.Bundle;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.bawei6.homemodule.R;
+import com.example.bawei.basemodel.rx.BaseObservable;
+import com.example.bawei.basemodel.rx.BaseObserver;
 import com.example.bawei.basemodel.ui.BaseActivity;
+import com.example.bawei.basemodel.ui.BaseMVPActivity;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseMVPActivity {
     MapView mMapView = null;
     @Override
     protected int getLayoutId() {
@@ -16,13 +19,12 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mMapView = (MapView) findViewById(R.id.map);
+        mMapView = (MapView) findViewById(R.id.home_map);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
-        AMap aMap = null;
-        if (aMap == null) {
-            aMap = mMapView.getMap();
-        }
+           AMap aMap = mMapView.getMap();
+
+
 
     }
 
