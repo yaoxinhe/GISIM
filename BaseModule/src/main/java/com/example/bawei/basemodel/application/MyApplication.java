@@ -2,6 +2,11 @@ package com.example.bawei.basemodel.application;
 
 import android.app.Application;
 
+import androidx.core.provider.FontRequest;
+import androidx.emoji.text.EmojiCompat;
+import androidx.emoji.text.FontRequestEmojiCompatConfig;
+
+import com.example.bawei.basemodel.R;
 import com.example.bawei.basemodel.device.AliyunUtils;
 import com.example.bawei.basemodel.device.AppInfoConfig;
 import com.example.bawei.basemodel.device.DeviceInfoConfig;
@@ -20,5 +25,13 @@ public class MyApplication extends Application {
         DeviceInfoConfig.getInstance().init(this);
         ZXing3.init(this);
         AliyunUtils.getInstance().init(this);
+
+        FontRequest fontRequest = new FontRequest(
+                "com.example.fontprovider",
+                "com.example",
+                "emoji compat Font Query",
+                R.array.com_google_android_gms_fonts_certs);
+        EmojiCompat.Config config = new FontRequestEmojiCompatConfig(this, fontRequest);
+        EmojiCompat.init(config);
     }
 }

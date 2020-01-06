@@ -35,7 +35,7 @@ public class ChartRecycleViewAdapter extends BaseMultiItemQuickAdapter<MyChartBe
         ImageView view = helper.getView(R.id.iv_mesgImage);
         View view1 = helper.getView(R.id.item_text);
         View view2 = helper.getView(R.id.iv_audio);
-        if(item.getMessage().contains(".jpg")){
+        if(item.getMessage().contains(".jpg")||item.getMessage().contains(".mp4")){
             view2.setVisibility(View.GONE);
             view1.setVisibility(View.GONE);
             view.setVisibility(View.VISIBLE);

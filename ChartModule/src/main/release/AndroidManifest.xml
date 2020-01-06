@@ -3,9 +3,8 @@
     package="com.example.bawei.chartmodule">
 
     <application>
-        <activity android:name=".view.ChartActivity">
-
-        </activity>
+        <activity android:name=".view.VideoPlayer_Activity"></activity>
+        <activity android:name=".view.ChartActivity"></activity>
     </application>
 
 </manifest>

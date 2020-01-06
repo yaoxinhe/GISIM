@@ -24,5 +24,5 @@
         android:background="#278BF4"
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_30"
-        android:src="@drawable/audio_animation_list_right_3"/>
+        android:src="@drawable/yuyin"/>
 </LinearLayout>

@@ -56,7 +56,7 @@ dependencies {
     implementation project(path: ':CommonLibrary')
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.lzy.net:okgo:3.0.4'
-    if(IsChartModule){
+    if (IsChartModule) {
         implementation project(path: ':ChartModule')
     }
 }

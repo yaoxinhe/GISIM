@@ -3,7 +3,7 @@
     package="com.example.bawei.addfriend">
 
     <application>
-        <activity android:name=".view.MyImageActivity"></activity>
+        <activity android:name=".view.MyImageActivity" />
         <activity android:name=".view.FindFriendActivity" />
         <activity android:name=".view.FriendActivity" />
         <activity android:name=".view.AddFriendActivity" />

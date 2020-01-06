@@ -32,8 +32,9 @@ import java.util.List;
  * @CreateDate 2019/12/31 15:30
  * @Email 1151403054@qq.com
  */
-public abstract class BaseMVPActivity<P extends BasePresenter>extends BaseActivity {
+public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActivity {
     public P presenter;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,11 +47,15 @@ public abstract class BaseMVPActivity<P extends BasePresenter>extends BaseActivi
         initData();
         doEvent();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
-    protected  void Permissions(){
+    protected void Permissions() {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES, Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.ACCESS_WIFI_STATE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.READ_CONTACTS}, 100);
+                        Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
+                        Manifest.permission.READ_CONTACTS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.RECORD_AUDIO},
+                100);
     }
 
     public void getNotchParams() {
@@ -67,23 +72,22 @@ public abstract class BaseMVPActivity<P extends BasePresenter>extends BaseActivi
                 }
                 DisplayCutout displayCutout = rootWindowInsets.getDisplayCutout();
                 LogUtils.e("安全区域距离屏幕左边的距离 SafeInsetLeft:" + displayCutout.getSafeInsetLeft());
-                LogUtils.e( "安全区域距离屏幕右部的距离 SafeInsetRight:" + displayCutout.getSafeInsetRight());
-                LogUtils.e( "安全区域距离屏幕顶部的距离 SafeInsetTop:" + displayCutout.getSafeInsetTop());
+                LogUtils.e("安全区域距离屏幕右部的距离 SafeInsetRight:" + displayCutout.getSafeInsetRight());
+                LogUtils.e("安全区域距离屏幕顶部的距离 SafeInsetTop:" + displayCutout.getSafeInsetTop());
                 LogUtils.e("安全区域距离屏幕底部的距离 SafeInsetBottom:" + displayCutout.getSafeInsetBottom());
 
                 List<Rect> rects = displayCutout.getBoundingRects();
                 if (rects == null || rects.size() == 0) {
                     LogUtils.e("不是刘海屏");
                 } else {
-                    LogUtils.e( "刘海屏数量:" + rects.size());
+                    LogUtils.e("刘海屏数量:" + rects.size());
                     for (Rect rect : rects) {
-                        LogUtils.e( "刘海屏区域：" + rect);
+                        LogUtils.e("刘海屏区域：" + rect);
                     }
                 }
             }
         });
     }
-
 
 
     /***

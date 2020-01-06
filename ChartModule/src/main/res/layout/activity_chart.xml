@@ -144,7 +144,13 @@
                 android:button="@null"
                 android:scaleType="fitXY"
                 android:background="@drawable/gengduo" />
+
         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:id="@+id/biaoqing_recycle"/>
     </LinearLayout>
     <com.ilike.voicerecorder.widget.VoiceRecorderView
         android:visibility="gone"
