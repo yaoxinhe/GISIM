@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.ChartActivity">
+    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/chart_player"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.example.bawei.basemodel.widget.StatusBarView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#339999" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#339999">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/goback" />
+
+            <TextView
+                android:id="@+id/chart_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="#FDFDFD" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/chart_imlist"
+                android:src="@drawable/titlephone" />
+
+            <ImageView
+                android:id="@+id/chart_imlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/list" />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chart_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginTop="5dp"
+                android:id="@+id/chart_etmessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/editback" />
+
+            <Button
+                android:id="@+id/chart_btnsend"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/btnback"
+                android:text="发送" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/luyin"
+                android:layout_margin="5dp"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:scaleType="fitXY"
+                android:background="@drawable/ai01" />
+
+            <ImageButton
+                android:id="@+id/tupian"
+                android:layout_width="0dp"
+                android:layout_margin="5dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:scaleType="fitXY"
+                android:background="@drawable/tupian" />
+
+            <ImageButton
+                android:id="@+id/xiangji"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:button="@null"
+                android:scaleType="fitXY"
+                android:background="@drawable/aicamera" />
+
+            <ImageButton
+                android:id="@+id/diwei"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:scaleType="fitXY"
+                android:background="@drawable/dingwei" />
+
+            <ImageButton
+                android:id="@+id/biaoqing"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:scaleType="fitXY"
+                android:background="@drawable/biaoqing" />
+
+            <ImageButton
+                android:id="@+id/more"
+                android:layout_width="0dp"
+                android:layout_margin="5dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:scaleType="fitXY"
+                android:background="@drawable/gengduo" />
+        </LinearLayout>
+    </LinearLayout>
+    <com.ilike.voicerecorder.widget.VoiceRecorderView
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/chartvrv"/>
+
+</FrameLayout>

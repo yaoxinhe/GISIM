@@ -13,11 +13,9 @@ import com.baweigame.xmpplibrary.callback.IMsgCallback;
 import com.baweigame.xmpplibrary.contract.IXmppMsg;
 import com.baweigame.xmpplibrary.entity.MsgEntity;
 import com.example.bawei.basemodel.log.LogUtils;
-import com.example.bawei.basemodel.ui.BaseActivity;
 import com.example.bawei.basemodel.ui.BaseMVPActivity;
-import com.example.bawei.immodule.contract.Contract;
 
-public class ChartActivity extends BaseMVPActivity {
+public class DemoChartActivity extends BaseMVPActivity {
 
     private TextView tx;
     private EditText et_message;
@@ -27,7 +25,7 @@ public class ChartActivity extends BaseMVPActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_chart;
+        return R.layout.demoactivity_chart;
     }
 
     @Override
@@ -43,16 +41,16 @@ public class ChartActivity extends BaseMVPActivity {
                 boolean logout = XmppManager.getInstance().getXmppUserManager().deleteAccount();
                 LogUtils.e(logout+"");
                 if(logout){
-                    Intent intent = new Intent(ChartActivity.this, UserActivity.class);
+                    Intent intent = new Intent(DemoChartActivity.this, UserActivity.class);
                     startActivity(intent);
-                    ChartActivity.this.finish();
+                    DemoChartActivity.this.finish();
                 }
             }
         });
         asd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChartActivity.this, AddFriendActivity.class);
+                Intent intent = new Intent(DemoChartActivity.this, AddFriendActivity.class);
                 String username = intent.getStringExtra("username");
                 intent.putExtra("username", username);
                 startActivity(intent);

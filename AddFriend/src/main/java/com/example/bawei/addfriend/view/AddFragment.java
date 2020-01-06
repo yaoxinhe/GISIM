@@ -79,7 +79,7 @@ public class AddFragment extends BaseFragment implements Contract.View {
             String usercode = yxh.getString("usercode", "");
             String username = yxh.getString("username", "");
             if (usercode != "") {
-                presenter.add(usercode, list.get(position).getUsercode(), list.get(position).getUsername()+"@"+XmppManager.getInstance().getXmppConfig().getHostAddress(), list.get(position).getUsername() );
+                presenter.add(usercode, list.get(position).getUsercode(), list.get(position).getUsername()+"@"+XmppManager.getInstance().getXmppConfig().getDomainName(), list.get(position).getUsername() );
             }
         });
     }
@@ -91,7 +91,6 @@ public class AddFragment extends BaseFragment implements Contract.View {
 
     @Override
     protected void doEvent() {
-
         add_phone.setOnClickListener(v -> startActivity(new Intent(getContext(), AddFriendActivity.class)));
         add_facetoface.setOnClickListener(v -> new AlertView("扫码", null, "取消", null,
                 new String[]{"我的二维码", "扫一扫"},

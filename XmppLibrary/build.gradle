@@ -36,4 +36,5 @@ dependencies {
     api 'org.igniterealtime.smack:smack-android-extensions:4.2.0'
     api 'org.igniterealtime.smack:smack-android:4.2.0'
     implementation project(':CommonLibrary')
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
 }

@@ -2,6 +2,7 @@ package com.example.bawei.basemodel.application;
 
 import android.app.Application;
 
+import com.example.bawei.basemodel.device.AliyunUtils;
 import com.example.bawei.basemodel.device.AppInfoConfig;
 import com.example.bawei.basemodel.device.DeviceInfoConfig;
 import com.example.library.ZXing3;
@@ -18,6 +19,6 @@ public class MyApplication extends Application {
         AppInfoConfig.getInstance().init(this);
         DeviceInfoConfig.getInstance().init(this);
         ZXing3.init(this);
-
+        AliyunUtils.getInstance().init(this);
     }
 }

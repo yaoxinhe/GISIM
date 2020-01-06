@@ -2,10 +2,12 @@ package com.example.bawei.addfriend.view;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -17,15 +19,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawei6.common.PhoneDto;
-import com.bawei6.common.PhoneUtil;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bawei.addfriend.R;
-import com.example.bawei.addfriend.adapter.GoodsAdapter;
 import com.example.bawei.addfriend.adapter.MygetFriendAdapter;
 import com.example.bawei.addfriend.bean.MyFriendBean;
 import com.example.bawei.addfriend.contract.Contract;
 import com.example.bawei.addfriend.presenter.Presenter;
 import com.example.bawei.basemodel.log.LogUtils;
 import com.example.bawei.basemodel.ui.BaseFragment;
+import com.example.bawei.chartmodule.view.ChartActivity;
 
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class FridentFragment extends BaseFragment implements Contract.View {
             presenter=new Presenter(this);
             presenter.friend(usercode);
         }
+
 
 //        check();
     }
@@ -93,11 +96,8 @@ public class FridentFragment extends BaseFragment implements Contract.View {
 
 
     private void initViews() {
-        PhoneUtil phoneUtil = new PhoneUtil(getContext());
-        phoneDtos = phoneUtil.getPhone();
-        LogUtils.e(phoneDtos.size() + "");
-        addfrgment_recycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        addfrgment_recycle.setAdapter(new GoodsAdapter(phoneDtos));
+
+
     }
 
     @Override
@@ -127,6 +127,14 @@ public class FridentFragment extends BaseFragment implements Contract.View {
          mygetFriendAdapter = new MygetFriendAdapter(R.layout.addfrienditem, data);
         addfrgment_recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         addfrgment_recycle.setAdapter(mygetFriendAdapter);
+        mygetFriendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getContext(), ChartActivity.class);
+                intent.putExtra("username",data.get(position).getUsername());
+                startActivity(intent);
+            }
+        });
         mygetFriendAdapter.notifyDataSetChanged();
     }
 

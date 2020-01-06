@@ -43,6 +43,7 @@ public class FriendActivity extends BaseMVPActivity {
         vp.setAdapter(pagerAdapter);
         tab.setupWithViewPager(vp);
 
+
     }
 
 

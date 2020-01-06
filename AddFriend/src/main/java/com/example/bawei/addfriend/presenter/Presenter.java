@@ -89,32 +89,32 @@ public class Presenter extends Contract.Presenter {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void add(String usercode, String otherUsercode, String myuserName, String friendUsername) {
-        BaseObservable.doObserver(Observable.create( emitter -> emitter.onNext(XmppManager.getInstance().getXmppFriendManager().addFriend(myuserName, friendUsername))), new BaseObserver<Boolean>() {
+        BaseObservable.doObserver(Observable.create(emitter -> emitter.onNext(XmppManager.getInstance().getXmppFriendManager().addFriend(myuserName, friendUsername))), new BaseObserver<Boolean>() {
             @Override
             public void onNext(Boolean addFridentBeanBaseBeanEntity) {
                 super.onNext(addFridentBeanBaseBeanEntity);
-                    if ( addFridentBeanBaseBeanEntity) {
-                        BaseObservable.doObserver(mModel.add(usercode,otherUsercode),new BaseObserver<AddBean>(){
-                            @Override
-                            public void onNext(AddBean addBean) {
-                                super.onNext(addBean);
-                                if(addBean.isData()){
-                                    fragment.Success(addFridentBeanBaseBeanEntity, 102);
+                if (addFridentBeanBaseBeanEntity) {
+                    BaseObservable.doObserver(mModel.add(usercode, otherUsercode), new BaseObserver<AddBean>() {
+                        @Override
+                        public void onNext(AddBean addBean) {
+                            super.onNext(addBean);
+                            if (addBean.isData()) {
+                                fragment.Success(addFridentBeanBaseBeanEntity, 102);
 
-                                }else{
-                                    fragment.Failed();
-                                }
+                            } else {
+                                fragment.Failed();
                             }
+                        }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                super.onError(e);
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
 
-                            }
-                        },fragment);
-                    }
-
+                        }
+                    }, fragment);
                 }
+
+            }
 
             @Override
             public void onError(Throwable e) {

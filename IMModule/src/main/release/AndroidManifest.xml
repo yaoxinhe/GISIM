@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
-        <activity android:name="com.example.bawei.immodule.ui.ChartActivity"></activity>
+        <activity android:name="com.example.bawei.immodule.ui.DemoChartActivity"></activity>
         <activity android:name="com.example.bawei.immodule.ui.AddFriendActivity" />
         <activity android:name="com.example.bawei.immodule.ui.UserActivity"></activity>
     </application>
