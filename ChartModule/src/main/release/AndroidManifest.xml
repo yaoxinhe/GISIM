@@ -3,10 +3,17 @@
     package="com.example.bawei.chartmodule">
 
     <application>
-        <activity android:name=".view.VideoPlayer_Activity"></activity>
+        <service
+            android:name=".LocaltionService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="remote.service" />
+
+        <activity android:name=".view.VideoPlayer_Activity" />
         <activity
             android:name=".view.ChartActivity"
-            android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden" />
+        <meta-data android:name="time" android:value="100"/>
     </application>
 
 </manifest>

@@ -65,7 +65,7 @@ public class ChartActivity extends BaseMVPActivity {
     private TextView chart_tv;
     private RecyclerView chart_recycleview;
     private EditText chart_etmessage;
-    private String username;
+    private   String username;
     private Button chart_btnsend;
     private ChartRecycleViewAdapter chartRecycleViewAdapter;
     private List<MyChartBean> list = new ArrayList<>();
@@ -77,7 +77,7 @@ public class ChartActivity extends BaseMVPActivity {
     private ImageButton more;
     private VoiceRecorderView chartvrv;
     private MediaPlayer mediaPlayer = new MediaPlayer();
-    private String usercode;
+    public static String usercode;
     private RecyclerView biaoqing_recycle;
     private List<BianqingBean> biaoqinglist;
     @SuppressLint("HandlerLeak")
@@ -323,7 +323,6 @@ public class ChartActivity extends BaseMVPActivity {
             String filePath = data.getStringExtra(PictureSelector.PICTURE_PATH);
             String s = Environment.getExternalStorageDirectory().toString();
             String comPressPath = SiliCompressor.with(ChartActivity.this).compress(filePath,new File(s));
-            Toast.makeText(this, comPressPath, Toast.LENGTH_SHORT).show();
             String remotePath = "http://baweitest6.oss-cn-beijing.aliyuncs.com/img/" + fileName;
             AliyunUtils.getInstance().upload("baweitest6", "img/" + fileName, comPressPath, new OSSCompletedCallback() {
                 @Override
@@ -336,7 +335,7 @@ public class ChartActivity extends BaseMVPActivity {
 
                 }
             });
-            sendmessage(remotePath);
+            sendmessage(comPressPath);
 
 
         } else if (requestCode == 200 && resultCode == RESULT_OK) {
@@ -373,8 +372,6 @@ public class ChartActivity extends BaseMVPActivity {
                 }).start();
 
             }
-//            LogUtils.d(data1.getPath() + "========" + s);
-//
         }
     }
 }

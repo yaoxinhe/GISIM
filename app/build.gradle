@@ -32,6 +32,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':BaseModule')
     implementation 'com.google.android.material:material:1.0.0'
+    if(IsChartModule){
+        implementation project(path: ':ChartModule')
+    }
     if(IsIMModule.toBoolean()) {
         implementation project(path: ':IMModule')
     }

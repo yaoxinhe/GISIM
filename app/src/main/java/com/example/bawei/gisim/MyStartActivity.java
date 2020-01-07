@@ -17,6 +17,7 @@ import com.example.bawei.basemodel.log.LogUtils;
 import com.example.bawei.basemodel.service.XmppService;
 import com.example.bawei.basemodel.ui.BaseActivity;
 import com.example.bawei.basemodel.ui.BaseMVPActivity;
+import com.example.bawei.chartmodule.LocaltionService;
 import com.example.bawei.immodule.ui.UserActivity;
 
 import java.util.Timer;
@@ -62,7 +63,8 @@ public class MyStartActivity extends BaseMVPActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                XmppManager.getInstance();
+                startService(new Intent(MyStartActivity.this,XmppService.class));
+                startService(new Intent(MyStartActivity.this, LocaltionService.class));
                 handler.sendEmptyMessage(101);
             }
         }).start();

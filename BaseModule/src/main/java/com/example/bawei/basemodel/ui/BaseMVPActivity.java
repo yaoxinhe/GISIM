@@ -40,7 +40,6 @@ public abstract class BaseMVPActivity<P extends BasePresenter> extends BaseActiv
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        startService(new Intent(this, XmppService.class));
         Permissions();
 //        getNotchParams();
         initView(savedInstanceState);
