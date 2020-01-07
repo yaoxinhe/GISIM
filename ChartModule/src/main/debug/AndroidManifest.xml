@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".view.VideoPlayer_Activity"></activity>
-        <activity android:name=".view.ChartActivity">
+        <activity android:name=".view.ChartActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

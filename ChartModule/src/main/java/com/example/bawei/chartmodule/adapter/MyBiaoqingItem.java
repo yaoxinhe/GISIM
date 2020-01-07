@@ -14,13 +14,13 @@ import java.util.List;
  * @CreateDate 2020/1/6 20:05
  * @Email 1151403054@qq.com
  */
-public class MyBiaoqingItem extends BaseQuickAdapter<BianqingBean, BaseViewHolder> {
-    public MyBiaoqingItem(int layoutResId, @Nullable List<BianqingBean> data) {
+public class MyBiaoqingItem extends BaseQuickAdapter<String, BaseViewHolder> {
+    public MyBiaoqingItem(int layoutResId, @Nullable List<String> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, BianqingBean item) {
-        helper.setText(R.id.biaoqing_tv,String.valueOf(item.getUnicode()));
+    protected void convert(BaseViewHolder helper, String item) {
+        helper.setText(R.id.biaoqing_tv,item);
     }
 }

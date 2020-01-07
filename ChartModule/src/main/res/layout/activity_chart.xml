@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".view.ChartActivity">
+
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
+        android:id="@+id/chart_player"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:id="@+id/chart_player"/>
+        android:layout_height="0dp" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <com.example.bawei.basemodel.widget.StatusBarView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,10 +67,10 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:layout_marginTop="5dp"
                 android:id="@+id/chart_etmessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/editback" />
 
@@ -85,79 +87,116 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/luyin"
-                android:layout_margin="5dp"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:scaleType="fitXY"
-                android:background="@drawable/ai01" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+                <ImageButton
+                    android:id="@+id/luyin"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ai01"
+                    android:button="@null"
+                    android:scaleType="center" />
 
-            <ImageButton
-                android:id="@+id/tupian"
-                android:layout_width="0dp"
-                android:layout_margin="5dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:scaleType="fitXY"
-                android:background="@drawable/tupian" />
+            </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/xiangji"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                android:button="@null"
-                android:scaleType="fitXY"
-                android:background="@drawable/aicamera" />
 
-            <ImageButton
-                android:id="@+id/diwei"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:scaleType="fitXY"
-                android:background="@drawable/dingwei" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-            <ImageButton
-                android:id="@+id/biaoqing"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:scaleType="fitXY"
-                android:background="@drawable/biaoqing" />
+                <ImageButton
+                    android:id="@+id/tupian"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/tupian"
+                    android:button="@null"
+                    android:scaleType="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-            <ImageButton
-                android:id="@+id/more"
-                android:layout_width="0dp"
-                android:layout_margin="5dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:button="@null"
-                android:scaleType="fitXY"
-                android:background="@drawable/gengduo" />
+                <ImageButton
+                    android:id="@+id/xiangji"
+                    android:layout_gravity="center"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/aicamera"
+                    android:button="@null"
+                    android:scaleType="center" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/diwei"
+                    android:layout_width="35dp"
+                    android:layout_gravity="center"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/dingwei"
+                    android:button="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/biaoqing"
+                    android:layout_width="35dp"
+                    android:layout_gravity="center"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/biaoqing"
+                    android:button="@null"
+                    android:scaleType="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/more"
+                    android:layout_width="@dimen/dp_35"
+                    android:layout_gravity="center"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/gengduo"
+                    android:button="@null"
+                    android:scaleType="center" />
+            </LinearLayout>
+
 
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
+            android:id="@+id/biaoqing_recycle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_100"
-            android:id="@+id/biaoqing_recycle"/>
+            android:visibility="gone" />
     </LinearLayout>
+
     <com.ilike.voicerecorder.widget.VoiceRecorderView
-        android:visibility="gone"
-        android:layout_gravity="center"
+        android:id="@+id/chartvrv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:id="@+id/chartvrv"/>
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </FrameLayout>

@@ -4,7 +4,9 @@
 
     <application>
         <activity android:name=".view.VideoPlayer_Activity"></activity>
-        <activity android:name=".view.ChartActivity"></activity>
+        <activity
+            android:name=".view.ChartActivity"
+            android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden"></activity>
     </application>
 
 </manifest>

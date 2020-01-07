@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <application>
+
         <meta-data android:name="com.amap.api.v2.apikey" android:value="9bd965c8384cb2eda521a85661075e79">
         </meta-data>
         <service

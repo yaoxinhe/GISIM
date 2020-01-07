@@ -1,9 +1,12 @@
 package com.example.bawei.chartmodule.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +15,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,6 +39,7 @@ import com.alibaba.sdk.android.oss.model.OSSResult;
 import com.baweigame.xmpplibrary.XmppManager;
 import com.baweigame.xmpplibrary.callback.IMsgCallback;
 import com.baweigame.xmpplibrary.entity.MsgEntity;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bawei.basemodel.device.AliyunUtils;
 import com.example.bawei.basemodel.device.FileUtil;
 import com.example.bawei.basemodel.log.LogUtils;
@@ -41,25 +48,20 @@ import com.example.bawei.chartmodule.R;
 import com.example.bawei.chartmodule.adapter.ChartRecycleViewAdapter;
 import com.example.bawei.chartmodule.adapter.MyBiaoqingItem;
 import com.example.bawei.chartmodule.bean.BianqingBean;
-import com.example.bawei.chartmodule.bean.JsonParseUtil;
 import com.example.bawei.chartmodule.bean.MyChartBean;
-import com.google.gson.Gson;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.ilike.voicerecorder.widget.VoiceRecorderView;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.wildma.pictureselector.PictureSelector;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.rockerhieu.emojicon.emoji.Emojicon;
-import io.github.rockerhieu.emojiconize.Emojiconize;
 
 public class ChartActivity extends BaseMVPActivity {
 
-    private static int a=0;
     private TextView chart_tv;
     private RecyclerView chart_recycleview;
     private EditText chart_etmessage;
@@ -111,7 +113,15 @@ public class ChartActivity extends BaseMVPActivity {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initView(Bundle savedInstanceState) {
-        biaoqinglist =    JsonParseUtil.parseEmojiList(FileUtil.readAssetsFile(this, "EmojiList.json"));
+        List<String> getlist = BianqingBean.getlist();
+
+
+        View decorView = getWindow().getDecorView();
+
+        View contentView = findViewById(Window.ID_ANDROID_CONTENT);// 此处的控件ID可以使用界面当中的指定的任意控件
+
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(getGlobalLayoutListener(decorView, contentView));
+
 
         chart_tv = findViewById(R.id.chart_tv);
         Intent intent = getIntent();
@@ -127,27 +137,31 @@ public class ChartActivity extends BaseMVPActivity {
         chart_etmessage = findViewById(R.id.chart_etmessage);
         chart_btnsend = findViewById(R.id.chart_btnsend);
         chartvrv = findViewById(R.id.chartvrv);
-        biaoqing_recycle=findViewById(R.id.biaoqing_recycle);
+        biaoqing_recycle = findViewById(R.id.biaoqing_recycle);
         SharedPreferences yxh = getSharedPreferences("yxh", 0);
         usercode = yxh.getString("usercode", "");
-        String s = FileUtil.readAssetsFile(this, "EmojiList.json");
-        LogUtils.i(s);
-        Gson gson = new Gson();
-
-        MyBiaoqingItem myBiaoqingItem = new MyBiaoqingItem(R.layout.biaoqingitem, biaoqinglist);
+//        String s = FileUtil.readAssetsFile(this, "EmojiList.json");
+        MyBiaoqingItem myBiaoqingItem = new MyBiaoqingItem(R.layout.biaoqingitem, getlist);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 7);
         biaoqing_recycle.setLayoutManager(gridLayoutManager);
         biaoqing_recycle.setAdapter(myBiaoqingItem);
         biaoqing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                a++;
-                if(a%2==0){
-                    biaoqing_recycle.setVisibility(View.GONE);
-                }else{
+                if (biaoqing_recycle.getVisibility() == View.GONE) {
                     biaoqing_recycle.setVisibility(View.VISIBLE);
+                } else {
+                    biaoqing_recycle.setVisibility(View.GONE);
 
                 }
+            }
+        });
+        myBiaoqingItem.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                String string = chart_etmessage.getText().toString();
+                LogUtils.d(position + "");
+                chart_etmessage.setText(string + getlist.get(position));
             }
         });
         xiangji.setOnClickListener(v -> {
@@ -257,6 +271,47 @@ public class ChartActivity extends BaseMVPActivity {
 
     }
 
+    private ViewTreeObserver.OnGlobalLayoutListener getGlobalLayoutListener(final View decorView, final View contentView) {
+
+        return new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+
+            public void onGlobalLayout() {
+
+                Rect r = new Rect();
+
+                decorView.getWindowVisibleDisplayFrame(r);
+
+
+                int height = decorView.getContext().getResources().getDisplayMetrics().heightPixels;
+
+                int diff = height - r.bottom;
+
+
+                if (diff != 0) {
+
+                    if (contentView.getPaddingBottom() != diff) {
+
+                        contentView.setPadding(0, 0, 0, diff);
+
+                    }
+
+                } else {
+
+                    if (contentView.getPaddingBottom() != 0) {
+
+                        contentView.setPadding(0, 0, 0, 0);
+
+                    }
+
+                }
+            }
+
+        };
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -266,8 +321,11 @@ public class ChartActivity extends BaseMVPActivity {
             }
             String fileName = usercode + System.currentTimeMillis() + ".jpg";
             String filePath = data.getStringExtra(PictureSelector.PICTURE_PATH);
+            String s = Environment.getExternalStorageDirectory().toString();
+            String comPressPath = SiliCompressor.with(ChartActivity.this).compress(filePath,new File(s));
+            Toast.makeText(this, comPressPath, Toast.LENGTH_SHORT).show();
             String remotePath = "http://baweitest6.oss-cn-beijing.aliyuncs.com/img/" + fileName;
-            AliyunUtils.getInstance().upload("baweitest6", "img/" + fileName, filePath, new OSSCompletedCallback() {
+            AliyunUtils.getInstance().upload("baweitest6", "img/" + fileName, comPressPath, new OSSCompletedCallback() {
                 @Override
                 public void onSuccess(OSSRequest request, OSSResult result) {
                     XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(), remotePath);
