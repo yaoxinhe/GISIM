@@ -21,9 +21,15 @@
 
         <meta-data android:name="com.amap.api.v2.apikey" android:value="9bd965c8384cb2eda521a85661075e79">
         </meta-data>
+        <meta-data android:name="time" android:value="100"/>
         <service
             android:name=".service.XmppService"
             android:enabled="true"
             android:exported="true" />
+        <service
+            android:name="com.example.bawei.basemodel.service.RemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="remote.service" />
     </application>
 </manifest>

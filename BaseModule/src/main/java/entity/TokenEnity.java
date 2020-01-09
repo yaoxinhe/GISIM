@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * tooken的bean
+ */
 public class TokenEnity {
 
     /**

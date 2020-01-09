@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bawei.chartmodule">
+    package="com.example.bawei.basemodel.chartmodule">
 
     <application>
-        <service
-            android:name=".LocaltionService"
-            android:enabled="true"
-            android:exported="true"
-            android:process="remote.service" />
+
 
         <activity android:name=".view.VideoPlayer_Activity" />
         <activity
             android:name=".view.ChartActivity"
             android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden" />
-        <meta-data android:name="time" android:value="100"/>
+
     </application>
 
 </manifest>

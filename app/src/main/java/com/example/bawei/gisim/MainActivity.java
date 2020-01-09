@@ -25,10 +25,7 @@ public class MainActivity extends BaseMVPActivity {
     protected void initView(Bundle savedInstanceState) {
 
         vp = (ViewPager) findViewById(R.id.vp);
-        homeFragment=new HomeFragment();
-        fragmentPagerAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager());
-        fragmentPagerAdapter.addFragment(homeFragment);
-        vp.setAdapter(fragmentPagerAdapter);
+
     }
 
     @Override
@@ -38,6 +35,9 @@ public class MainActivity extends BaseMVPActivity {
 
     @Override
     protected void doEvent() {
-
+        homeFragment=new HomeFragment();
+        fragmentPagerAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager());
+        fragmentPagerAdapter.addFragment(homeFragment);
+        vp.setAdapter(fragmentPagerAdapter);
     }
 }

@@ -27,7 +27,7 @@ import com.example.bawei.addfriend.contract.Contract;
 import com.example.bawei.addfriend.presenter.Presenter;
 import com.example.bawei.basemodel.log.LogUtils;
 import com.example.bawei.basemodel.ui.BaseFragment;
-import com.example.bawei.chartmodule.view.ChartActivity;
+import com.example.bawei.basemodel.chartmodule.view.ChartActivity;
 
 import java.util.List;
 
