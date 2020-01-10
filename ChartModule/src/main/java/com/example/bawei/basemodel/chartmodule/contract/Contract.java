@@ -2,11 +2,15 @@ package com.example.bawei.basemodel.chartmodule.contract;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import com.example.bawei.basemodel.chartmodule.bean.MyGroupBean;
 import com.example.bawei.basemodel.mvp.BasePresenter;
 import com.example.bawei.basemodel.mvp.IModel;
 import com.example.bawei.basemodel.mvp.IView;
 import com.example.bawei.basemodel.chartmodule.bean.MyAddressBean;
 
+import java.util.List;
+
+import entity.BaseBeanEntity;
 import io.reactivex.Observable;
 
 /**

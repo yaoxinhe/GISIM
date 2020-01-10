@@ -35,24 +35,33 @@ public class PhoneUtil {
     public List<PhoneDto> getPhone(){
         String fla="";
         List<PhoneDto> phoneDtos = new ArrayList<>();
-        ContentResolver cr = context.getContentResolver();
-        //phonebook_label拿到当前联系人的大写首字母并且按照首字母排序
-        Cursor cursor = cr.query(phoneUri,null,null,null,"phonebook_label");
-        while (cursor.moveToNext()){
-            String num = cursor.getString(cursor.getColumnIndex(NUM));
-            String name = cursor.getString(cursor.getColumnIndex(NAME));
-            String phonebook_label = cursor.getString(cursor.getColumnIndex("phonebook_label"));
-            PhoneDto phoneDto = new PhoneDto(name, num, phonebook_label, 1);
-            if(fla.equals(phonebook_label)){
-                phoneDtos.add(phoneDto);
-            }else{
-                PhoneDto phoneDto1 = new PhoneDto(null, null, phonebook_label, 0);
-                fla=phonebook_label;
-                phoneDtos.add(phoneDto1);
-                phoneDtos.add(phoneDto);
+        Cursor cursor=null;
+        try{
+            ContentResolver cr = context.getContentResolver();
+            //phonebook_label拿到当前联系人的大写首字母并且按照首字母排序
+             cursor = cr.query(phoneUri,null,null,null,"phonebook_label");
+            while (cursor.moveToNext()){
+                String num = cursor.getString(cursor.getColumnIndex(NUM));
+                String name = cursor.getString(cursor.getColumnIndex(NAME));
+                String phonebook_label = cursor.getString(cursor.getColumnIndex("phonebook_label"));
+                PhoneDto phoneDto = new PhoneDto(name, num, phonebook_label, 1);
+                if(fla.equals(phonebook_label)){
+                    phoneDtos.add(phoneDto);
+                }else{
+                    PhoneDto phoneDto1 = new PhoneDto(null, null, phonebook_label, 0);
+                    fla=phonebook_label;
+                    phoneDtos.add(phoneDto1);
+                    phoneDtos.add(phoneDto);
 
+                }
             }
+            return phoneDtos;
+        } catch (Exception e){
+
+        }finally {
+            cursor.close();
         }
-        return phoneDtos;
+        return null;
+
     }
 }

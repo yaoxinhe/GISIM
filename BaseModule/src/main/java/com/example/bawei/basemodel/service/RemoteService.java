@@ -104,7 +104,6 @@ public class RemoteService extends Service {
             if (aMapLocation == null) {
                 return;
             }
-            a++;
             double latitude = aMapLocation.getLatitude();
             double longitude = aMapLocation.getLongitude();
             if (latitude!=0.0&&longitude!=0.0) {

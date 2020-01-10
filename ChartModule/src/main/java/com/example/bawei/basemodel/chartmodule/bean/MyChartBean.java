@@ -1,5 +1,6 @@
 package com.example.bawei.basemodel.chartmodule.bean;
 
+import com.bawei.immodulenew.entity.BaseMsg;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 /**
@@ -9,7 +10,12 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 public class MyChartBean implements MultiItemEntity {
     private int type;
-    private String message;
+    private BaseMsg baseMsg;
+
+    public MyChartBean(int type, BaseMsg baseMsg) {
+        this.type = type;
+        this.baseMsg = baseMsg;
+    }
 
     public int getType() {
         return type;
@@ -19,17 +25,12 @@ public class MyChartBean implements MultiItemEntity {
         this.type = type;
     }
 
-    public String getMessage() {
-        return message;
+    public BaseMsg getBaseMsg() {
+        return baseMsg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public MyChartBean(int type, String message) {
-        this.type = type;
-        this.message = message;
+    public void setBaseMsg(BaseMsg baseMsg) {
+        this.baseMsg = baseMsg;
     }
 
     @Override

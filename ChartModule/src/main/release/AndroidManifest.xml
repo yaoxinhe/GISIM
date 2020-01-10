@@ -3,13 +3,11 @@
     package="com.example.bawei.basemodel.chartmodule">
 
     <application>
-
-
+        <activity android:name=".view.GroupActivity"></activity>
         <activity android:name=".view.VideoPlayer_Activity" />
         <activity
             android:name=".view.ChartActivity"
             android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden" />
-
     </application>
 
 </manifest>

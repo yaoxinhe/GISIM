@@ -35,10 +35,12 @@ public class FriendActivity extends BaseMVPActivity {
         friend_ctb = findViewById(R.id.friend_ctb);
         tab = findViewById(R.id.tab);
         vp = (ViewPager) findViewById(R.id.vp);
-        friend_ctb.rightivOnclick(v -> startActivity(new Intent(FriendActivity.this, FindFriendActivity.class)));
+        friend_ctb.rightivOnclick(v ->
+                startActivity(new Intent(FriendActivity.this, FindFriendActivity.class))
+        );
         pagerAdapter=new MyPagerAdapter(getSupportFragmentManager(),titlwlist);
         pagerAdapter.setFrgment(new FridentFragment());
-        pagerAdapter.setFrgment(new FridentFragment());
+        pagerAdapter.setFrgment(new AddGroupFragment());
         pagerAdapter.setFrgment(new FridentFragment());
         vp.setAdapter(pagerAdapter);
         tab.setupWithViewPager(vp);

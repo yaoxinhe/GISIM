@@ -77,7 +77,6 @@ public class AddFragment extends BaseFragment implements Contract.View {
         myAddFriendAdapter.setOnItemClickListener((adapter, view, position) -> {
             SharedPreferences yxh = getContext().getSharedPreferences("yxh", 0);
             String usercode = yxh.getString("usercode", "");
-            String username = yxh.getString("username", "");
             if (usercode != "") {
                 presenter.add(usercode, list.get(position).getUsercode(), list.get(position).getUsername()+"@"+XmppManager.getInstance().getXmppConfig().getDomainName(), list.get(position).getUsername() );
             }
@@ -123,11 +122,10 @@ public class AddFragment extends BaseFragment implements Contract.View {
             list.clear();
             MyBeana addFridentBeanBaseBeanEntity = (MyBeana) bean;
             list.addAll(addFridentBeanBaseBeanEntity.getData());
-            Log.e("asdf", list.size() + "");
             addfriend_recycle.setLayoutManager(new LinearLayoutManager(getContext()));
             addfriend_recycle.setAdapter(myAddFriendAdapter);
             myAddFriendAdapter.notifyDataSetChanged();
-        } else {
+        } else if(flag==102){
             Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
         }
 

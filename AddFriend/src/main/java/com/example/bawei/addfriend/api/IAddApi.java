@@ -6,6 +6,7 @@ import com.example.bawei.addfriend.bean.AddBean;
 import com.example.bawei.addfriend.bean.AddFridentBean;
 import com.example.bawei.addfriend.bean.MyBeana;
 import com.example.bawei.addfriend.bean.MyFriendBean;
+import com.example.bawei.basemodel.chartmodule.bean.MyGroupBean;
 
 import java.util.List;
 
@@ -31,5 +32,7 @@ public interface IAddApi {
     Observable<MyFriendBean> getFriend(@Query("usercode")String Usercode );
     @POST("api/Friend/addFriend")
     Observable<AddBean> add(@Query("usercode") String usercode, @Query("friendcode")String friendcode);
+    @GET("api/Group/getGroupsForUser")
+    Observable<BaseBeanEntity<List<MyGroupBean>>> getGroup(@Query("usercode")String usercode);
 
 }

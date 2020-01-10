@@ -1,9 +1,13 @@
 package com.example.bawei.basemodel.chartmodule.api;
 
+import entity.BaseBeanEntity;
 import entity.BooleanBaseEntity;
 import entity.LocaltionEntity;
 import com.example.bawei.basemodel.chartmodule.bean.MyAddressBean;
+import com.example.bawei.basemodel.chartmodule.bean.MyGroupBean;
 
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -22,4 +26,5 @@ public interface LocationApi {
     Observable<BooleanBaseEntity> uploadLocatoin(@Body LocaltionEntity localtionEntity);
     @GET("api/UserLocation/getLastestLoc")
     Observable<MyAddressBean> getAddress(@Query("usercode")String usercode);
+
 }

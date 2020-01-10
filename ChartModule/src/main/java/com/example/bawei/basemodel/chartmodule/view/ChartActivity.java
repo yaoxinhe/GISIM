@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -36,12 +37,25 @@ import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.bawei.immodulenew.entity.AudioMsg;
+import com.bawei.immodulenew.entity.BaseMsg;
+import com.bawei.immodulenew.entity.ImgMsg;
+import com.bawei.immodulenew.entity.MsgType;
+import com.bawei.immodulenew.entity.TxtMsg;
+import com.bawei.immodulenew.entity.VideoMsg;
+import com.bawei.immodulenew.msg.MsgManager;
+import com.bawei.immodulenew.notify.IObserver;
+import com.bawei.immodulenew.notify.NotifyManager;
+import com.bawei.immodulenew.task.TaskManager;
+import com.bawei6.common.Config;
 import com.baweigame.xmpplibrary.XmppManager;
 import com.baweigame.xmpplibrary.callback.IMsgCallback;
 import com.baweigame.xmpplibrary.entity.MsgEntity;
+import com.bumptech.glide.Glide;
 import com.example.bawei.basemodel.chartmodule.utils.SuspensionUtils;
 import com.example.bawei.basemodel.device.AliyunUtils;
 import com.example.bawei.basemodel.log.LogUtils;
+import com.example.bawei.basemodel.toast.ToastUtils;
 import com.example.bawei.basemodel.ui.BaseMVPActivity;
 import com.example.bawei.basemodel.chartmodule.R;
 import com.example.bawei.basemodel.chartmodule.adapter.ChartRecycleViewAdapter;
@@ -51,6 +65,7 @@ import com.example.bawei.basemodel.chartmodule.bean.MyAddressBean;
 import com.example.bawei.basemodel.chartmodule.bean.MyChartBean;
 import com.example.bawei.basemodel.chartmodule.contract.Contract;
 import com.example.bawei.basemodel.chartmodule.presenter.Presenter;
+import com.google.gson.Gson;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.ilike.voicerecorder.widget.VoiceRecorderView;
 import com.wildma.pictureselector.PictureSelector;
@@ -61,8 +76,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> implements Contract.ChartView {
+public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> implements Contract.ChartView, IObserver {
 
     private MyBiaoqingItem myBiaoqingItem;
     private List<String> getlist;
@@ -76,6 +90,7 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
     private ImageButton luyin;
     private ImageButton tupian;
     private ImageButton xiangji;
+    private String jid;
     private ImageButton diwei;
     private ImageButton biaoqing;
     private ImageButton more;
@@ -83,6 +98,8 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
     private MediaPlayer mediaPlayer = new MediaPlayer();
     public static String usercode;
     private RecyclerView biaoqing_recycle;
+    private Gson gson;
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -94,17 +111,22 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
              */
             String fileName = usercode + System.currentTimeMillis() + ".mp4";
             String remotePath = "http://baweitest6.oss-cn-beijing.aliyuncs.com/video/" + fileName;
+            VideoMsg videoMsg = new VideoMsg();
+            videoMsg.setTo(jid);
+            videoMsg.setPath(remotePath);
+            videoMsg.setFrom(username);
             AliyunUtils.getInstance().upload("baweitest6", "video/" + fileName, str, new OSSCompletedCallback() {
                 @Override
                 public void onSuccess(OSSRequest request, OSSResult result) {
-                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(), remotePath);
+                    videoMsg.setPath(remotePath);
+                    MsgManager.getInstance().sendMsg(videoMsg);
                 }
 
                 @Override
                 public void onFailure(OSSRequest request, ClientException clientException, ServiceException serviceException) {
                 }
             });
-            sendmessage(str);
+            sendmessage(videoMsg);
 
         }
     };
@@ -118,6 +140,7 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initView(Bundle savedInstanceState) {
+        gson = new Gson();
         //初始化表情的集合
         getlist = EmoticonBean.getlist();
         //设置edittext悬浮在软键盘的上面不会遮挡
@@ -129,6 +152,7 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         chart_tv.setText(username);
+        jid=username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName();
         luyin = findViewById(R.id.luyin);
         tupian = findViewById(R.id.tupian);
         xiangji = findViewById(R.id.xiangji);
@@ -148,47 +172,18 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 7);
         biaoqing_recycle.setLayoutManager(gridLayoutManager);
         biaoqing_recycle.setAdapter(myBiaoqingItem);
-
-
-        /**
-         *接收消息的回调是个异步任务需要跳到主线程更新UI
-         */
-        XmppManager.getInstance().addMessageListener(new IMsgCallback() {
-            @Override
-            public void Success(MsgEntity msgEntity) {
-                LogUtils.i("接收到新消息的回调");
-                if (msgEntity.getMsgType() == MsgEntity.MsgType.Txt) {
-                    MyChartBean myChartBean = new MyChartBean(1, msgEntity.getMsg());
-                    if (msgEntity.getFrom().equals(username)) {
-                        list.add(myChartBean);
-                        runOnUiThread(() -> {
-                            chart_recycleview.scrollToPosition(list.size() - 1);
-                            chartRecycleViewAdapter.notifyDataSetChanged();
-                        });
-                    }
-
-                }
-            }
-
-            @Override
-            public void Failed(Throwable throwable) {
-
-            }
-        });
         chartRecycleViewAdapter = new ChartRecycleViewAdapter(list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         chart_recycleview.setLayoutManager(linearLayoutManager);
         chart_recycleview.setAdapter(chartRecycleViewAdapter);
 
-
     }
 
     /**
-     * @param string 发送消息更新本地的方法
+     * @param baseMsg 发送消息更新本地的方法
      */
-
-    private void sendmessage(String string) {
-        list.add(new MyChartBean(0, string));
+    private void sendmessage(BaseMsg baseMsg) {
+        list.add(new MyChartBean(0, baseMsg));
         chart_recycleview.scrollToPosition(list.size() - 1);
         chart_etmessage.setText("");
         chartRecycleViewAdapter.notifyDataSetChanged();
@@ -198,7 +193,6 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
     /**
      * @param msg 初始化mediaplayer
      */
-
     private void setMediaPlayer(String msg) {
         if (mediaPlayer == null) {
             return;
@@ -216,7 +210,7 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
 
     @Override
     protected void initData() {
-
+        NotifyManager.getInstance().addObserver(this);
         //拿到储存的usercode
         SharedPreferences yxh = getSharedPreferences("yxh", 0);
         usercode = yxh.getString("usercode", "");
@@ -261,18 +255,19 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
          * 发送文本消息
          */
         chart_btnsend.setOnClickListener(v -> {
-            String string = chart_etmessage.getText().toString();
-            if (string.equals("")) {
-                Toast.makeText(this, "不可以为空", Toast.LENGTH_SHORT).show();
+            String sendmsg = chart_etmessage.getText().toString();
+            if (sendmsg.equals("")) {
+                ToastUtils.Toastu("不能为空");
                 return;
             }
-            XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(), string);
-
-            sendmessage(string);
-
+            TxtMsg txtMsg = new TxtMsg();
+            txtMsg.setTo(jid);
+            txtMsg.setTxt(sendmsg);
+            txtMsg.setFrom(username);
+            MsgManager.getInstance().sendMsg(txtMsg);
+            sendmessage(txtMsg);
 
         });
-
         /**
          *
          * 发送音频
@@ -280,17 +275,21 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
         luyin.setOnTouchListener((v, event) -> chartvrv.onPressToSpeakBtnTouch(v, event, (voiceFilePath, voiceTimeLength) -> {
             String fileName = usercode + System.currentTimeMillis() + ".mp3";
             String remotePath = "http://baweitest6.oss-cn-beijing.aliyuncs.com/audio/" + fileName;
-            AliyunUtils.getInstance().upload("baweitest6", "audio/" + fileName, voiceFilePath, new OSSCompletedCallback() {
+            AudioMsg audioMsg = new AudioMsg();
+            audioMsg.setTo(jid);
+            audioMsg.setPath(remotePath);
+            audioMsg.setFrom(username);
+            AliyunUtils.getInstance().upload(Config.SPACENAME, "audio/" + fileName, voiceFilePath, new OSSCompletedCallback() {
                 @Override
                 public void onSuccess(OSSRequest request, OSSResult result) {
-                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(), remotePath);
+                    MsgManager.getInstance().sendMsg(audioMsg);
                 }
 
                 @Override
                 public void onFailure(OSSRequest request, ClientException clientException, ServiceException serviceException) {
                 }
             });
-            sendmessage(remotePath);
+            sendmessage(audioMsg);
         }));
 
         //图片选择器
@@ -306,11 +305,15 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
          * 如果是视频跳转界面播放
          */
         chartRecycleViewAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (list.get(position).getMessage().contains(".mp3")) {
-                setMediaPlayer(list.get(position).getMessage());
-            } else if (list.get(position).getMessage().contains(".mp4")) {
+            if (list.get(position).getBaseMsg().getMsgType().equals(MsgType.AUDIO)) {
+                String msg = list.get(position).getBaseMsg().getMsg();
+                LogUtils.d(msg);
+                AudioMsg audioMsg = gson.fromJson(list.get(position).getBaseMsg().getMsg(), AudioMsg.class);
+                setMediaPlayer(audioMsg.getPath());
+            } else if (list.get(position).getBaseMsg().getMsgType().equals(MsgType.VIDEO)) {
                 Intent intent1 = new Intent(ChartActivity.this, VideoPlayer_Activity.class);
-                intent1.putExtra("path", list.get(position).getMessage());
+                VideoMsg videoMsg = gson.fromJson(list.get(position).getBaseMsg().getMsg(), VideoMsg.class);
+                intent1.putExtra("path", videoMsg.getPath());
                 startActivity(intent1);
             }
         });
@@ -335,11 +338,16 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
             //获取sd卡根目录
             String s = Environment.getExternalStorageDirectory().toString();
             String comPressPath = SiliCompressor.with(ChartActivity.this).compress(filePath, new File(s));
+            ImgMsg imgMsg = new ImgMsg();
             String remotePath = "http://baweitest6.oss-cn-beijing.aliyuncs.com/img/" + fileName;
-            AliyunUtils.getInstance().upload("baweitest6", "img/" + fileName, comPressPath, new OSSCompletedCallback() {
+            imgMsg.setTo(jid);
+            imgMsg.setImgPath(remotePath);
+            imgMsg.setFrom(username);
+
+            AliyunUtils.getInstance().upload(Config.SPACENAME, "img/" + fileName, comPressPath, new OSSCompletedCallback() {
                 @Override
                 public void onSuccess(OSSRequest request, OSSResult result) {
-                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(), remotePath);
+                    MsgManager.getInstance().sendMsg(imgMsg);
                 }
 
                 @Override
@@ -347,7 +355,7 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
 
                 }
             });
-            sendmessage(comPressPath);
+            sendmessage(imgMsg);
 
 
         } else if (requestCode == 200 && resultCode == RESULT_OK) {
@@ -396,11 +404,14 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
             public void onRegeocodeSearched(RegeocodeResult result, int rCode) {
                 String formatAddress = result.getRegeocodeAddress().getFormatAddress();
                 if (rCode == 1000) {
-                    XmppManager.getInstance().getXmppMsgManager().sendSingleMessage(username + "@" + XmppManager.getInstance().getXmppConfig().getDomainName(), formatAddress);
-                    sendmessage(formatAddress);
+                    TxtMsg txtMsg = new TxtMsg();
+                    txtMsg.setTo(jid);
+                    txtMsg.setTxt(formatAddress);
+                    txtMsg.setFrom(username);
+                    MsgManager.getInstance().sendMsg(txtMsg);
+                    MsgManager.getInstance().sendMsg(txtMsg);
+                    sendmessage(txtMsg);
                 }
-                LogUtils.e("formatAddress:" + formatAddress);
-                LogUtils.e("rCode:" + rCode);
 
             }
         });
@@ -449,4 +460,18 @@ public class ChartActivity extends BaseMVPActivity<Contract.ChartPresenter> impl
     }
 
 
+    @Override
+    public void nodify(BaseMsg msg) {
+        LogUtils.d("asdaaaaaaa");
+        runOnUiThread(() -> {
+            if (msg.getFrom().equals(username)) {
+                MyChartBean myChartBean = new MyChartBean(1, msg);
+                list.add(myChartBean);
+                chart_recycleview.scrollToPosition(list.size() - 1);
+                chartRecycleViewAdapter.notifyDataSetChanged();
+            }
+
+        });
+
+    }
 }

@@ -6,9 +6,12 @@ import com.example.bawei.addfriend.bean.AddBean;
 import com.example.bawei.addfriend.bean.AddFridentBean;
 import com.example.bawei.addfriend.bean.MyBeana;
 import com.example.bawei.addfriend.bean.MyFriendBean;
+import com.example.bawei.basemodel.chartmodule.bean.MyGroupBean;
 import com.example.bawei.basemodel.mvp.BasePresenter;
 import com.example.bawei.basemodel.mvp.IModel;
 import com.example.bawei.basemodel.mvp.IView;
+
+import java.util.List;
 
 import entity.BaseBeanEntity;
 import io.reactivex.Observable;
@@ -23,6 +26,8 @@ public interface Contract {
         Observable<MyBeana> addfriend(String  username);
         Observable<MyFriendBean> friend(String usercode);
         Observable<AddBean> add(String usercode, String otherUsercode);
+        Observable<BaseBeanEntity<List<MyGroupBean>>> getGroup(String usercode);
+
     }
 
     interface View extends IView {
@@ -36,6 +41,7 @@ public interface Contract {
         abstract public void addFriend(String  username);
         abstract public void friend(String usercode);
         abstract public void add(String usercode,String otherUsercode,String myuserName,String friendUsername);
+        abstract public void getGroup(String usercode);
 
     }
 }

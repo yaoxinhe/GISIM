@@ -56,6 +56,7 @@ public class MsgEntity {
                 "from='" + from + '\'' +
                 ", to='" + to + '\'' +
                 ", msg='" + msg + '\'' +
+                ", msgType='" + msgType + '\'' +
                 '}';
     }
 
@@ -82,6 +83,14 @@ public class MsgEntity {
         /**
          * 位置信息
          */
-        Location
+        Location,
+        /**
+         * 表情
+         */
+        ICON,
+        /**
+         * 其他
+         */
+        Other
     }
 }
